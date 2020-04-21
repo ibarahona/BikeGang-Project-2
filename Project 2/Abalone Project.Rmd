@@ -155,3 +155,158 @@ Shucked weight: weight of meat (g)
 Viscera weight: gut weight (after bleeding) (g)
 Shell weight: after being dried (g)
 Rings: number of major rings present +1.5 gives the age in years
+
+
+```{r normalitytests, results=TRUE}
+loadPkg(ggplot2)
+
+#histogram distribution for Rings
+ggplot(abalone_data, aes(x=Rings, color=Sex))+
+  geom_density(aes(fill=Sex), alpha=0.4)+
+   labs(title = "Distribution of Abalone Rings",
+       x = "Rings",
+       y = "Frequency")
+
+#histogram distribution for Length
+ggplot(abalone_data, aes(x=Length, color=Sex))+
+  geom_density(aes(fill=Sex), alpha=0.4)+
+   labs(title = "Distribution of Abalone Length",
+       x = "Length (mm)",
+       y = "Frequency")
+
+#histogram distribution for Diameter
+ggplot(abalone_data, aes(x=Diameter, color=Sex))+
+  geom_density(aes(fill=Sex), alpha=0.4)+
+   labs(title = "Distribution of Abalone Diameter",
+       x = "Diameter (mm)",
+       y = "Frequency")
+
+#histogram distribution for Height
+ggplot(abalone_data, aes(x=Height, color=Sex))+
+  geom_density(aes(fill=Sex), alpha=0.4)+
+   labs(title = "Distribution of Abalone Height",
+       x = "Height (mm)",
+       y = "Frequency")
+
+#histogram distribution for weight
+ggplot(abalone_data, aes(x=Whole.weight, color=Sex))+
+  geom_density(aes(fill=Sex), alpha=0.4)+
+   labs(title = "Distribution of Whole Weight",
+       x = "Whole Weight (grams)",
+       y = "Frequency")
+
+#histogram distribution for Shuchked Weight
+ggplot(abalone_data, aes(x=Shucked.weight, color=Sex))+
+  geom_density(aes(fill=Sex), alpha=0.4)+
+   labs(title = "Distribution of Shucked weight",
+       x = "Shucked weight (grams)",
+       y = "Frequency")
+
+#histogram distribution for Viscera Weight
+ggplot(abalone_data, aes(x=Viscera.weight, color=Sex))+
+  geom_density(aes(fill=Sex), alpha=0.4)+
+   labs(title = "Distribution of Viscera Weight",
+       x = "Viscera Weight (grams)",
+       y = "Frequency")
+
+#histogram distribution for Shell Weight
+ggplot(abalone_data, aes(x=Shell.weight, color=Sex))+
+  geom_density(aes(fill=Sex), alpha=0.4)+
+   labs(title = "Distribution of Shell Weight",
+       x = "Shell Weight (grams)",
+       y = "Frequency")
+```
+
+```{r qqtests, results=TRUE}
+
+qqnorm(abalone_data$Rings) 
+qqline(abalone_data$Rings)
+#Shows a right skew
+
+qqnorm(abalone_data$Length) 
+qqline(abalone_data$Length)
+#Shows a left tailed distribution
+
+qqnorm(abalone_data$Diameter) 
+qqline(abalone_data$Diameter)
+#Shows a left tailed distribution
+
+qqnorm(abalone_data$Height) 
+qqline(abalone_data$Height)
+#normal distribution
+
+qqnorm(abalone_data$Whole.weight) 
+qqline(abalone_data$Whole.weight)
+#Shows a right tailed distribution
+
+qqnorm(abalone_data$Viscera.weight) 
+qqline(abalone_data$Viscera.weight)
+#rightskew
+
+qqnorm(abalone_data$Shucked.weight) 
+qqline(abalone_data$Shucked.weight)
+#rightskew
+
+qqnorm(abalone_data$Shell.weight) 
+qqline(abalone_data$Shell.weight)
+#rightskew
+```
+
+```{r agescat, results=TRUE}
+
+ggplot(abalone_data, aes(x=Rings, y=Length)) + 
+  geom_point(aes(col=Sex)) + 
+  labs(subtitle="Abalone Rings vs. Length", 
+       y="Length", 
+       x="Rings", 
+       title="Scatterplot")
+
+ggplot(abalone_data, aes(x=Rings, y=Diameter)) + 
+  geom_point(aes(col=Sex)) + 
+  labs(subtitle="Abalone Rings vs. Diameter", 
+       y="Diameter(mm)", 
+       x="Rings", 
+       title="Scatterplot")
+
+ggplot(abalone_data, aes(x=Rings, y=Height)) + 
+  geom_point(aes(col=Sex)) + 
+  labs(subtitle="Abalone Rings vs. Height", 
+       y="Height(mm)", 
+       x="Rings", 
+       title="Scatterplot")
+
+ggplot(abalone_data, aes(x=Rings, y=Whole.weight)) + 
+  geom_point(aes(col=Sex)) + 
+  labs(subtitle="Abalone Rings vs. Whole Weight", 
+       y="Whole Weight (grams)", 
+       x="Rings", 
+       title="Scatterplot")
+
+ggplot(abalone_data, aes(x=Rings, y=Shucked.weight)) + 
+  geom_point(aes(col=Sex)) + 
+  labs(subtitle="Abalone Rings vs. Shucked Weight (grams)", 
+       y="Shucked Weight (grams)", 
+       x="Rings", 
+       title="Scatterplot")
+
+ggplot(abalone_data, aes(x=Rings, y=Viscera.weight)) + 
+  geom_point(aes(col=Sex)) + 
+  labs(subtitle="Abalone Rings vs. Viscera Weight (grams)", 
+       y="Viscera Weight (grams)", 
+       x="Rings", 
+       title="Scatterplot")
+
+ggplot(abalone_data, aes(x=Rings, y=Shell.weight)) + 
+  geom_point(aes(col=Sex)) + 
+  labs(subtitle="Abalone Rings vs. Shell Weight (grams)", 
+       y="Shell Weight (grams)", 
+       x="Rings", 
+       title="Scatterplot")
+```
+
+```{r ageboxplot, results=TRUE}
+loadPkg("dplyr")
+
+abalone_data %>% group_by(Rings) %>% boxplot(abalone_data$Length,abalone_data$Rings)
+
+```
