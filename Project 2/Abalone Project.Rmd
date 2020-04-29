@@ -1,6 +1,17 @@
 ---
-title: "BikeGang Project 2"
-output: html_document
+title: "DATS 6101-10 Project 2: Predicting the Number of Abalone Growth Rings using a Blacklip Abalone Dataset"
+author: "Group Members: Jessica Barahona, Jesse Liu, and Solomon Mekonnen"
+date: "Presented on April 22nd, 2020"
+output:
+  html_document:
+    number_sections: true
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    theme: cerulean 
+  pdf_document:
+    toc: true
+    toc_depth: '3'
 ---
 
 ```{r setup, include=FALSE}
@@ -94,7 +105,9 @@ xkablevif = function(model) {
 }
 ```
 
-```{r importingdata Packages, echo = FALSE}
+```{r importing, echo = FALSE}
+
+#importing data
 abalone_data <- data.frame(read.csv("abalone.csv"))
 
 #importing packages 
@@ -109,38 +122,48 @@ loadPkg("tidyr")
 loadPkg("gridExtra")
 ```
 
-# Project Introduction: 
+# Project Introduction:
 
-Abalone are marine snails belonging to the class Gastropoda, family Haliotidae, and genus Haliotis. Abalone are found in cold waters around most parts of the world, including the northwestern coast of the United States and Canada as well as South Africa and New Zealand. Abalone is highly sought out for its meat and is considered one of the most expensive shellfish in the world. Additionally, the abalone shell has an inner, iridescent layer that is used in decorative pieces and jewelry. The shell of the abalone is strong and is made of microscopic calcium carbonate tiles stacked like bricks and its spiral structure, common in snail shells, is flattened. Unfortunately, the abalone wild population has been declining due to many factors, such as overfishing and environmental stressors. In recent years, several countries have placed restrictions on the total number of abalone, age of abalone, and/or size of abalone that can be collected per person to combat declining populations. For example, in South Africa, the minimum legal size is 114 mm shell breadth, which is considered around 8 to 9 years of age. With this in mind, we found a public dataset on Kaggle (“Abalone Dataset”) that contains 4,177 observations across 9 variables for a population of backlip abalone. One of the most difficult tasks is estimating the age of abalone, which is normally done using shell growth rings via two techniques: the counting of external growth checks on the shell and the counting of internal growth checks within sections. In our analysis, we will analyze the relationships between the variables to then build a model to predict the age of abalone. Our analysis and model may lay the groundwork for future methods enlisted to develop policies and/or enforce restrictions on abalone fishing. 
+Abalone are marine snails belonging to the class Gastropoda, family Haliotidae, and genus Haliotis. Abalone are found in cold waters around most parts of the world, including the northwestern coast of the United States and Canada as well as South Africa and New Zealand. Abalone is highly sought out for its meat and is considered one of the most expensive shellfish in the world. Abalone can cost as high as 500 USD per kilo, which equates to approximately 250 grams of meat. Additionally, the abalone shell has an inner, iridescent layer that is used in decorative pieces and jewelry. Unfortunately, there has been a steep decline in the abalone wild population over the years due to overfishing and environmental stressors. In recent years, several countries have placed restrictions on the total number of abalone, age of abalone, and/or size of abalone that can be collected per person to combat declining populations. For example, in South Africa, the minimum legal size is 114 mm shell breadth, which is considered around 8 to 9 years of age. With this in mind, we found a dataset from the UCI Machine Learning Repository that contains 4,177 observations across 9 variables for a population of blacklip abalone. One of the most difficult tasks is estimating the age of an abalone, which traditionally involves staining the shell and counting the number of growth rings individually under a microscope. In our analysis, we will analyze the relationships between the variables to then build a model to predict the number of growth rings on an abalone. Our analysis and model may lay the groundwork for future methods enlisted to develop policies and/or enforce restrictions on abalone fishing. 
 
-# Background Research on the Abalone Dataset: 
+# Background Research on the Abalone Dataset:
 
-The dataset is from UCI Machine Learning Repository. From the original data, examples with missing values were removed (the majority having the predicted value missing), and the ranges of the continuous values have been scaled for use with an ANN (by dividing by 200).
+The dataset is from the UCI Machine Learning Repository. The original data is from a population study of the blacklip abalone carried out in Tasmania. 
 
-Source of Dataset:
+Below is detailed information regarding the original study:
 
-Warwick J Nash, Tracy L Sellers, Simon R Talbot, Andrew J Cawthorn and Wes B Ford (1994), "The Population Biology of Abalone (Haliotis species) in Tasmania. I. Blacklip Abalone (H. rubra) from the North Coast and Islands of Bass Strait", Sea Fisheries Division, Technical Report No. 48 (ISSN 1034-3288)
+*Original Study*
 
-Original Owners of Database: 
+Nash, W.J., Sellers, T.L., Talbot, S.R., Cawthorn, A.J., & Ford, W.B. (1994). The Population Biology of Abalone (Haliotis species) in Tasmania. I. Blacklip Abalone (H. rubra) from the North Coast and Islands of Bass Strait. Technical Report No. 48, Sea Fisheries Division, pp. 1-69.
+
+*Original Owners of Database* 
 
 Marine Resources Division 
 Marine Research Laboratories - Taroona 
 Department of Primary Industry and Fisheries, Tasmania 
 GPO Box 619F, Hobart, Tasmania 7001, Australia 
 
-Donor of Database: 
+*Donor of Database*
 
 Sam Waugh (Sam.Waugh '@' cs.utas.edu.au) 
 Department of Computer Science, University of Tasmania 
 GPO Box 252C, Hobart, Tasmania 7001, Australia 
 
-2.2 Issues with the Data
+From the original data, examples with missing values were removed (the majority having the predicted value missing), and the ranges of the continuous values have been scaled for use with an ANN (by dividing by 200).
 
-The dataset is limited to an abalone population in Tasmania and captures measurements for the backlip abalone (Haliotis rubra). Growth checks and layers in the shell were used to age the abalone assuming the one-layer-per-year relationship established for H. rubra in southern Tasmania. The addition of 1.5 years to the number of major growth rings was based on a finding from Prince et al. Three distinct minor layers are laid down in the first 16 months of life, with subsequent major layers being deposited annually. The 1.5 years accounts for the period during which the minor rings are deposited. The validity of this application to backlip abalone populations beyond southeast Tasmania is unknown (Nash et al, 1994, pg. 9).
+2.2 Limitations of the Dataset and Considerations
 
-# Description of the Data
+The dataset is limited to an abalone population in Tasmania and captures measurements for the blacklip abalone (Haliotis rubra). Growth checks and layers in the shell were used to age the abalone assuming the one-layer-per-year relationship established for blacklip abalone in southern Tasmania. The addition of 1.5 years to the number of major growth rings was based on a finding from Prince et al. Three distinct minor layers are laid down in the first 16 months of life, with subsequent major layers being deposited annually. The 1.5 years accounts for the period during which the minor rings are deposited. The validity of this application to backlip abalone populations beyond southeast Tasmania is unknown (Nash et al, 1994, pg. 9).
 
-The dataset contains 4,177 observations across 9 variables. Each row corresponds to a single abalone. The 9 variables are sex (nominal), length (continuous), diameter (continuous), height (continuous), whole weight (continuous), shucked weight (continuous), viscera weight (continuous), shell weight (continuous), and rings (integer). 
+This well studied relationship of age = number of major growth rings + 1.5 years is unique to blacklip abalone. The relationship between the number of major growth rings and age for other species of abalone is unknown or unclear. Therefore, we chose to keep number of major growth rings as our y-target variable and not convert the "Rings" variable to age for the purposes of our analysis. 
+
+# S.M.A.R.T Question
+
+Can we predict the number of growth rings on an abalone from a specific set of variables?
+
+# Exploratory Data Analysis: Analyzing the Abalone Dataset
+
+The dataset contains 4,177 observations across 9 variables. Each row corresponds to a single abalone. The 9 variables are sex, length, diameter, height, whole weight, shucked weight, viscera weight, shell weight, and rings. All variables, except for sex, are numerical.  
 
  - Sex: Male (M), Female (F), and Infant (I)
  - Length: longest shell measurement (mm)
@@ -150,18 +173,16 @@ The dataset contains 4,177 observations across 9 variables. Each row corresponds
  - Shucked weight: weight of meat (g)
  - Viscera weight: gut weight (after bleeding) (g)
  - Shell weight: after being dried (g)
- - Rings: number of major rings present +1.5 gives the age in years
+ - Rings: number of major growth rings present
 
 
 ```{r summary}
-str(abalone_data)
-
 # Statistics summary
 xkablesummary(abalone_data)
 #nrow(abalone_data1)
 ```
  
-### Exploratory Data Analysis
+# Exploratory Data Analysis
 
 ```{r normalitytests, echo=FALSE}
 loadPkg(ggplot2)
@@ -310,6 +331,7 @@ ggplot(abalone_data, aes(x=Rings, y=Shell.weight)) +
        title="Scatterplot")
 ```
 
+
 ```{r ageboxplot, echo=FALSE}
 loadPkg("dplyr")
 
@@ -399,7 +421,9 @@ pcr_model$coefficients[1:8,1,'4 comps'] # three coefficients for PC1, PC2, and P
 - From the plot we achieved the minimum error rate at 4.Rather than using the orginal values with 9 features , we can reduce the dimenssion to 4 PC.  
 Reducing error rate and with smaller number of Principal components.
 
-```{r KNN, results=TRUE}
+#kNN Classification: Blacklip Abalone Age Groupings
+
+```{r KNN, echo=FALSE}
 #Remove categorial variable - sex variable
 abaloneknn <- subset(abalone_data, select =-c(1:3))
 
@@ -418,6 +442,9 @@ xkablesummary(abaloneknn)
 
 ```
 
+Based on how difficult it is to estimate the age of an abalone, would it be beneficial and easier to estimate which age group an abalone belongs to? We can use the validated relationship between age and number of major growth rings in blacklip abalone to create "number of rings" groups, which correspond to age groups. We can then build our kNN classifier which predicts which group an abalone belongs to. If this kNN classifier predicts with a high accuracy, other kNN classifiers can be built for other abalone species. Researchers, divers, abalone farmers, or fisherman could have a better chance at accurately predicting which age group an abalone belongs to intead of estimating the age. 
+
+Three "number of rings" groups were created based on the life cycle of blacklip abalone and the age assumption (age = number of major growth rings + 1.5 years). "Group 1" is 1-5 major growth rings (<6.5 years old - juvenile), "Group 2" is 6-13 major growth rings (7.5-14.5 years old - adult), and "Group 3" is 14-30 growth rings (15.5-31.5 years old - old adult). 
 
 ```{r KNN, results=TRUE}
 #ready for knn classification
@@ -435,18 +462,6 @@ abaloneknn.trainLabels <- abaloneknn[abaloneknn_sample==1, 8]
 abaloneknn.testLabels <- abaloneknn[abaloneknn_sample==2, 8]
 ```
 
-
-```{r KNN, results=TRUE}
-#load package
-loadPkg(FNN)
-#deploy model
-abalone_pred <- knn(train = abaloneknn_training, test = abaloneknn_test, cl=abaloneknn.trainLabels, k=5)
-abalone_pred
-#install.packages("gmodels")
-loadPkg(gmodels)
-IRISPREDCross <- CrossTable(abaloneknn.testLabels, abalone_pred, prop.chisq = FALSE)
-```
-
 ```{r best K value, results=TRUE}
 i=1                          # declaration to initiate for loop
 k.optm=1                     # declaration to initiate for loop
@@ -457,8 +472,23 @@ for (i in 1:28){
     cat(k,'=',k.optm[i],'\n')       # to print % accuracy 
 }
 ```
-
 ```{r, results=TRUE}
 plot(k.optm, type="b", xlab="K- Value",ylab="Accuracy level")  # to plot % accuracy wrt to k-value
 ```
+
+List of accuracy rates for k-values up to 28. We see that a k-value of 15 gives us an accuracy rate of 87.7%. On the graph, we can visually see the accuracy rate level off after it peaks at k-value = 15. 
+
+```{r KNN, results=TRUE}
+#load package
+loadPkg(FNN)
+#deploy model
+abalone_pred <- knn(train = abaloneknn_training, test = abaloneknn_test, cl=abaloneknn.trainLabels, k=15)
+abalone_pred
+#install.packages("gmodels")
+loadPkg(gmodels)
+IRISPREDCross <- CrossTable(abaloneknn.testLabels, abalone_pred, prop.chisq = FALSE)
+```
+This kNN classifier raises some concerns even though the accuracy rate is 87.7%. Based on the cross table, the kNN classifer predicted "Group 1" when it should have been "Group 2" 6 times and predicted "Group 3" when it should have been "Group 2" 15 times. Group 1 represents the "juvenile" age group of abalone. For conservational purposes, the "juvenile" abalone group is the group that would need to be most protected. Pulling out juvenile abalone before they are sexually mature would set back attempts of replenishing wild abalone populations. We would be satisfied if the accuracy rate were higher and if there were a reduction in the number of false positives. 
+
+#Conclusion
 
