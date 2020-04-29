@@ -488,7 +488,7 @@ abalone_pred
 loadPkg(gmodels)
 IRISPREDCross <- CrossTable(abaloneknn.testLabels, abalone_pred, prop.chisq = FALSE)
 ```
-This kNN classifier raises some concerns even though the accuracy rate is 87.7%. Based on the cross table, the kNN classifer predicted "Group 1" when it should have been "Group 2" 6 times and predicted "Group 3" when it should have been "Group 2" 15 times. Group 1 represents the "juvenile" age group of abalone. For conservational purposes, the "juvenile" abalone group is the group that would need to be most protected. Pulling out juvenile abalone before they are sexually mature would set back attempts of replenishing wild abalone populations. We would be satisfied if the accuracy rate were higher and if there were a reduction in the number of false positives. 
+This kNN classifier raises some concerns even though the accuracy rate is 87.7%. Based on the cross table, the kNN classifer predicted "Group 1" when it should have been "Group 2" 6 times and predicted "Group 3" when it should have been "Group 2" 15 times. Group 1 represents the "juvenile" age group of abalone. For conservational purposes, the "juvenile" abalone group is the group that would need to be most protected. Pulling out juvenile abalone before they are sexually mature would set back attempts at replenishing wild abalone populations. A higher accuracy rate and a reduction in the number of false positives are needed for this classifier to be reliable. 
 
 #Conclusion
 
