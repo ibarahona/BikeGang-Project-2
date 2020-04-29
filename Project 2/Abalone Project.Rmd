@@ -159,6 +159,9 @@ This well studied relationship of age = number of major growth rings + 1.5 years
 
 # S.M.A.R.T Question
 
+Given the number of quantitative variables, why should we focus on the “rings” variable? Estimating age is important for setting restrictions on wild abalone fishing. Relying on the size of an abalone alone is not enough to determine if an abalone is a juvenile or adult. Shell size depends on the availability of food and in some areas, abalone can form stunted populations that have different growth characteristics than other populations. These abalone have slower growth and end up with a smaller maximum size. Abalone form rings as they age, therefore, there is a correlation between the number of rings and age. The relationship between abalone size and age is not as clear.
+
+As mentioned in our introduction, we do not know the exact relationship between age and the number of rings for all abalone species. Therefore, we decided to focus on the number of rings and its relationship to other quantitative variables in the dataset. Once those relationships are determined for other abalone species, the “ring” variable can be converted to age for future models. 
 Can we predict the number of growth rings on an abalone from a specific set of variables?
 
 # Exploratory Data Analysis: Analyzing the Abalone Dataset
